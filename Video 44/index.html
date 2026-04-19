@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 7</title>
+    <style>
+        .logo img {
+            width: 165px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .right ul {
+            display: flex;
+            gap: 34px;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 285px 240px 240px 240px;
+            grid-template-rows: 50px 105px 105px 105px 105px;
+        }
+
+        .main-box {
+            background-color: rgb(248, 247, 247);
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            display: grid;
+
+        }
+
+        /* .small-box{
+            display: flex;
+            height: 20px;
+
+        } */
+        .main1 {
+            grid-column: 2/3;
+            grid-row: 2/3;
+        }
+
+        .main2 {
+            grid-column: 3/4;
+            grid-row: 2/3;
+        }
+
+        .main3 {
+            grid-column: 4/5;
+            grid-row: 2/3;
+        }
+
+        .main4 {
+            grid-column: 2/3;
+            grid-row: 3/4;
+        }
+
+        .main5 {
+            grid-column: 3/4;
+            grid-row: 3/4;
+        }
+
+        .main6 {
+            grid-column: 4/5;
+            grid-row: 3/4;
+        }
+
+        .main7 {
+            grid-column: 2/3;
+            grid-row: 4/5;
+        }
+
+        .main8 {
+            grid-column: 3/4;
+            grid-row: 4/5;
+        }
+
+        .main9 {
+            grid-column: 4/5;
+            grid-row: 4/5;
+        }
+
+        .main10 {
+            grid-column: 2/3;
+            grid-row: 5/6;
+        }
+
+        .small-box1 {
+            background-color: rgb(33, 186, 237);
+            color: white;
+            height: 30px;
+            width: 100px;
+            margin: 3px;
+            align-content: center;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+
+        }
+
+        .small-box2 {
+            background-color: lightgreen;
+            color: white;
+            height: 30px;
+            width: 100px;
+            margin: 3px;
+            align-content: center;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .small {
+            display: flex;
+            font-size: 12px;
+           
+            
+        }
+       
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="Frame-1-2.png" alt="logo">
+            </div>
+            <div class="right">
+                <ul>
+                    <li>Products</li>
+                    <li>Pricing</li>
+                    <li>Resources</li>
+                    <li>About us</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="main-box main1">
+            English
+            <div class="small"><span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+
+        </div>
+        <div class="main-box main2">
+            German
+            <div class="small"> <span class="small-box1">Download 32-bit </span>
+                <span class="small-box2">Download 64-bit </span>
+            </div>
+        </div>
+        <div class="main-box main3">
+            Italian
+            <div class="small"><span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main4">
+            Spanish
+            <div class="small"> <span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main5">
+            French
+            <div class="small"> <span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main6">
+            Brazilian Portuguiese
+            <div class="small"><span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main7">
+            Japanese
+            <div class="small"> <span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main8">
+            Korean
+            <div class="small"> <span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main9">
+            Chinese
+            <div class="small"> <span class="small-box1">Download 32-bit</span>
+                <span class="small-box2">Download 64-bit</span>
+            </div>
+        </div>
+        <div class="main-box main10">
+            Traditional Chinese
+            <div class="small"><span class="small-box1">Download 32-bit</span>
+            <span class="small-box2">Download 64-bit</span></div>
+        </div>
+    </main>
+</body>
+
+</html>
