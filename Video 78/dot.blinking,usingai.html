@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body{
+    font-size: 30px;
+    font-family: Arial;
+  }
+</style>
+</head>
+
+<body>
+
+<p><span>Loading</span><span class="dots"></span></p>
+<p><span>SomeThing Extra Loading</span><span class="dots"></span></p>
+
+<script>
+let dots = "";
+let count = 0;
+
+setInterval(function() {
+  count++;
+  
+  if(count % 4 === 1){
+    dots = ".";
+  } 
+  else if(count % 4 === 2){
+    dots = "..";
+  } 
+  else if(count % 4 === 3){
+    dots = "...";
+  } 
+  else {
+    dots = "";
+  }   
+
+  let allDots = document.querySelectorAll(".dots");
+   allDots.forEach(function(dot){
+    dot.innerHTML = dots;
+  });
+
+},500);
+ 
+</script>
+
+</body>
+</html>

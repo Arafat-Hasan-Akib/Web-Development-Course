@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 22px;
+        }
+
+        .line {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="terminal"></div>
+
+    <script>
+        const terminal = document.getElementById("terminal");
+
+        const messages = [
+            "Starting system",
+            "Connecting to server",
+            "Downloading data"
+        ];
+
+        messages.forEach(function (text, index) {
+
+            setTimeout(function () {
+
+                let p = document.createElement("p");
+                p.className = "line";
+
+                let spanText = document.createElement("span");
+                spanText.innerText = text;
+
+                let spanDots = document.createElement("span");
+
+                p.appendChild(spanText);
+                p.appendChild(spanDots);
+
+                terminal.appendChild(p);
+
+                let count = 0;
+
+                setInterval(function () {
+
+                    count++;
+
+                    let dots = "";
+
+                    if (count % 4 === 1) {
+                        dots = ".";
+                    }
+                    else if (count % 4 === 2) {
+                        dots = "..";
+                    }
+                    else if (count % 4 === 3) {
+                        dots = "...";
+                    }
+                    else {
+                        dots = "";
+                    }
+
+                    spanDots.innerHTML = dots;
+
+                }, 500);
+
+            }, (index + 1) * 2000);
+
+        });
+
+
+        setTimeout(function () {
+
+            let done = document.createElement("p");
+            done.innerText = "Completed ✓";
+            terminal.appendChild(done);
+
+        }, 8000);
+    </script>
+</body>
+
+</html>

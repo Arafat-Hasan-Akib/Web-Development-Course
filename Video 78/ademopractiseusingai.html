@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+        }
+
+        .line {
+            display: none;
+            font-size: 24px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <p class="line">Initializing Hacking<span class="dots"></span></p>
+    <p class="line">Reading Your Files<span class="dots"></span></p>
+    <p class="line">Password Files detected<span class="dots"></span></p>
+    <p class="line">Sending All passwords and personal files to server<span class="dots"></span></p>
+    <p class="line">Cleaning up<span class="dots"></span></p>
+
+    <script>
+        let lines = document.querySelectorAll(".line");
+
+        lines.forEach(function (line, index) {
+
+            setTimeout(function () {
+
+                line.style.display = "block";
+
+                let dotsElement = line.querySelector(".dots");
+
+                let count = 0;
+
+                setInterval(function () {
+
+                    count++;
+
+                    let dots = "";
+
+                    if (count % 4 === 1) {
+                        dots = ".";
+                    }
+                    else if (count % 4 === 2) {
+                        dots = "..";
+                    }
+                    else if (count % 4 === 3) {
+                        dots = "...";
+                    }
+                    else {
+                        dots = "";
+                    }
+
+                    dotsElement.innerHTML = dots;
+
+                }, 500);
+
+            }, (index+1) * 2000);
+
+        });
+    </script>
+
+</body>
+
+</html>
