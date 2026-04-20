@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Card Demo</title>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin: 10px;
+      background: #f9f9f9;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .thumbnail {
+      position: relative;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: black;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin: 8px;
+      color: #333;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 4px 8px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="card-container"></div>
+
+  <script>
+    function createCard(title, cName, views, monthsOld, duration, thumbnail) {
+      // নতুন card div তৈরি করো
+      let card = document.createElement("div");
+      card.classList.add("card");
+
+      // thumbnail wrapper
+      let thumbDiv = document.createElement("div");
+      thumbDiv.classList.add("thumbnail");
+
+      let img = document.createElement("img");
+      img.src = thumbnail;
+      img.alt = title;
+      thumbDiv.appendChild(img);
+
+      // duration span ছবির উপরে বসবে
+      let durationEl = document.createElement("span");
+      durationEl.innerText = duration;
+      durationEl.classList.add("duration");
+      thumbDiv.appendChild(durationEl);
+
+      card.appendChild(thumbDiv);
+
+      // title
+      let titleEl = document.createElement("h3");
+      titleEl.innerText = title;
+      card.appendChild(titleEl);
+
+      // channel name
+      let channelEl = document.createElement("p");
+      channelEl.innerText = `Channel: ${cName}`;
+      card.appendChild(channelEl);
+
+      // views + months old
+      let viewsEl = document.createElement("p");
+      viewsEl.innerText = `${views} views • ${monthsOld} months ago`;
+      card.appendChild(viewsEl);
+
+      // container এ যোগ করো
+      document.getElementById("card-container").appendChild(card);
+    }
+
+    // ফাংশন কল
+    createCard(
+      "Introduction to Backend | Sigma Web Dev Video #1",
+      "CodeWithHarry",
+      560000,
+      17,
+      "31:20",
+      "card.png"
+    );
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.card{
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    background: #f9f9f9;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #555;
+}
+
+.duration {
+    display: inline-block;
+    background: black;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    position: relative;
+    top: -23px;
+    left: -10px;
+}
