@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f0e8;
+      --surface: #ede8de;
+      --card: #ffffff;
+      --border: #d8d0c0;
+      --accent: #c0392b;
+      --accent2: #e67e22;
+      --accent3: #27ae60;
+      --text: #2c2416;
+      --text-dim: #7a6e5f;
+      --muted: #b0a898;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+      background-image: radial-gradient(ellipse 60% 40% at 80% 10%, #fde8d0 0%, transparent 60%),
+                        radial-gradient(ellipse 40% 30% at 10% 90%, #fce4e4 0%, transparent 60%);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    header h1 span { color: var(--accent); }
+
+    header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-top: 0.3rem;
+      font-weight: 300;
+    }
+
+    /* Summary */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      max-width: 800px;
+      margin: 0 auto 1.8rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 0.8rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card .val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-card .val.red { color: var(--accent); }
+    .stat-card .val.orange { color: var(--accent2); }
+    .stat-card .val.green { color: var(--accent3); }
+    .stat-card .val.brown { color: #8b6914; }
+
+    .stat-card .lbl {
+      font-size: 0.63rem;
+      color: var(--text-dim);
+      margin-top: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Subject Summary Bar */
+    .subject-summary {
+      max-width: 800px;
+      margin: 0 auto 1.8rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .subject-summary h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .subj-bars { display: flex; flex-direction: column; gap: 0.55rem; }
+
+    .subj-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 48px;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .subj-row .name {
+      font-size: 0.75rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .subj-row .bar-wrap {
+      height: 7px;
+      background: var(--surface);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .subj-row .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .subj-row .hr-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    /* Month nav */
+    .month-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .month-nav button {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    .month-nav button:hover { border-color: var(--accent); color: var(--accent); }
+
+    .month-nav .month-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 170px;
+      text-align: center;
+    }
+
+    /* Day cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.9rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .day-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .day-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+
+    .day-card.today { border-color: var(--accent); border-width: 2px; }
+
+    .day-card.has-hours { border-color: var(--accent3); }
+
+    .day-card .day-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .day-card .date-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      line-height: 1;
+    }
+
+    .day-card.today .date-num { color: var(--accent); }
+    .day-card.has-hours .date-num { color: var(--text); }
+
+    .day-card .day-name {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .day-card .total-badge {
+      margin-left: auto;
+      background: var(--accent3);
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 2px 8px;
+    }
+
+    /* Subject rows inside card */
+    .subj-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+    .subj-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subj-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .subj-item label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .subj-item select {
+      width: 80px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 3px 4px;
+      font-size: 0.68rem;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+
+    .subj-item select:focus { border-color: var(--accent); }
+
+    @media (max-width: 520px) {
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .grid { grid-template-columns: 1fr; }
+      .subj-row { grid-template-columns: 130px 1fr 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="tag">// monthly study tracker</p>
+  <h1>Study <span>Log</span></h1>
+  <p class="subtitle">প্রতিটা subject-এ কতক্ষণ পড়লে সেটা track করো</p>
+</header>
+
+<!-- Summary Stats -->
+<div class="summary">
+  <div class="stat-card">
+    <div class="val red" id="totalHours">0</div>
+    <div class="lbl">মোট ঘণ্টা</div>
+  </div>
+  <div class="stat-card">
+    <div class="val orange" id="studiedDays">0</div>
+    <div class="lbl">দিন পড়েছ</div>
+  </div>
+  <div class="stat-card">
+    <div class="val green" id="avgHours">0</div>
+    <div class="lbl">গড় ঘণ্টা/দিন</div>
+  </div>
+  <div class="stat-card">
+    <div class="val brown" id="topSubject">—</div>
+    <div class="lbl">সেরা subject</div>
+  </div>
+</div>
+
+<!-- Subject-wise Summary -->
+<div class="subject-summary">
+  <h3>Subject অনুযায়ী মোট ঘণ্টা</h3>
+  <div class="subj-bars" id="subjBars"></div>
+</div>
+
+<!-- Month Nav -->
+<div class="month-nav">
+  <button id="prevBtn">&#8249;</button>
+  <div class="month-title" id="monthTitle"></div>
+  <button id="nextBtn">&#8250;</button>
+</div>
+
+<!-- Day Grid -->
+<div class="grid" id="dayGrid"></div>
+
+<script>
+  const SUBJECTS = [
+    { name: 'বাংলা ১ম পত্র',   short: 'বাং-১', color: '#c0392b' },
+    { name: 'বাংলা ২য় পত্র',   short: 'বাং-২', color: '#e74c3c' },
+    { name: 'English 1st',      short: 'Eng-1', color: '#2980b9' },
+    { name: 'English 2nd',      short: 'Eng-2', color: '#3498db' },
+    { name: 'Accounting',       short: 'Acct',  color: '#8b6914' },
+    { name: 'Finance',          short: 'Fin',   color: '#e67e22' },
+    { name: 'Management',       short: 'Mgmt',  color: '#27ae60' },
+    { name: 'Marketing',        short: 'Mktg',  color: '#16a085' },
+    { name: 'ICT',              short: 'ICT',   color: '#8e44ad' },
+  ];
+
+  const DAYS_BN = ['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'];
+  const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const STORAGE_KEY = 'akib_study_tracker_v3';
+
+  let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const now = new Date();
+  let viewYear = now.getFullYear();
+  let viewMonth = now.getMonth();
+
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+  function getKey(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  function getDaysInMonth(y, m) { return new Date(y, m+1, 0).getDate(); }
+
+  function buildOptions() {
+    let o = '<option value="0">—</option>';
+    for (let h = 0.5; h <= 10; h += 0.5) {
+      o += `<option value="${h}">${h}h</option>`;
+    }
+    return o;
+  }
+
+  function getMonthTotals() {
+    const totals = {};
+    SUBJECTS.forEach(s => totals[s.name] = 0);
+    const days = getDaysInMonth(viewYear, viewMonth);
+    for (let d = 1; d <= days; d++) {
+      const key = getKey(viewYear, viewMonth, d);
+      if (data[key]) {
+        SUBJECTS.forEach(s => {
+          totals[s.name] += (data[key][s.name] || 0);
+        });
+      }
+    }
+    return totals;
+  }
+
+  function updateSummary() {
+    const days = getDaysInMonth(viewYear, viewMonth);
+    let totalHours = 0, studiedDays = 0;
+    const totals = getMonthTotals();
+
+    for (let d = 1; d <= days; d++) {
+      const key = getKey(viewYear, viewMonth, d);
+      if (data[key]) {
+        const dayTotal = SUBJECTS.reduce((s, sub) => s + (data[key][sub.name] || 0), 0);
+        if (dayTotal > 0) { totalHours += dayTotal; studiedDays++; }
+      }
+    }
+
+    const avg = studiedDays > 0 ? (totalHours / studiedDays).toFixed(1) : 0;
+
+    // Top subject
+    let topName = '—', topVal = 0;
+    SUBJECTS.forEach(s => {
+      if (totals[s.name] > topVal) { topVal = totals[s.name]; topName = s.short; }
+    });
+
+    document.getElementById('totalHours').textContent = totalHours % 1 === 0 ? totalHours : totalHours.toFixed(1);
+    document.getElementById('studiedDays').textContent = studiedDays;
+    document.getElementById('avgHours').textContent = avg;
+    document.getElementById('topSubject').textContent = topVal > 0 ? topName : '—';
+
+    // Subject bars
+    const maxVal = Math.max(...Object.values(totals), 1);
+    const barsEl = document.getElementById('subjBars');
+    barsEl.innerHTML = '';
+    SUBJECTS.forEach(s => {
+      const h = totals[s.name];
+      const pct = Math.round((h / maxVal) * 100);
+      const row = document.createElement('div');
+      row.className = 'subj-row';
+      row.innerHTML = `
+        <div class="name">${s.name}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${s.color}"></div></div>
+        <div class="hr-val">${h > 0 ? (h % 1 === 0 ? h + 'h' : h + 'h') : '—'}</div>
+      `;
+      barsEl.appendChild(row);
+    });
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('dayGrid');
+    grid.innerHTML = '';
+    const days = getDaysInMonth(viewYear, viewMonth);
+    const todayKey = getKey(now.getFullYear(), now.getMonth(), now.getDate());
+
+    document.getElementById('monthTitle').textContent = `${MONTHS_EN[viewMonth]} ${viewYear}`;
+
+    for (let d = 1; d <= days; d++) {
+      const key = getKey(viewYear, viewMonth, d);
+      const dayData = data[key] || {};
+      const isToday = key === todayKey;
+      const dayTotal = SUBJECTS.reduce((s, sub) => s + (dayData[sub.name] || 0), 0);
+      const hasHours = dayTotal > 0;
+      const dayName = DAYS_BN[new Date(viewYear, viewMonth, d).getDay()];
+
+      const card = document.createElement('div');
+      card.className = `day-card${isToday ? ' today' : ''}${hasHours ? ' has-hours' : ''}`;
+
+      let subjHTML = '';
+      SUBJECTS.forEach(s => {
+        const val = dayData[s.name] || 0;
+        subjHTML += `
+          <div class="subj-item">
+            <div class="subj-dot" style="background:${s.color}"></div>
+            <label>${s.name}</label>
+            <select data-key="${key}" data-subj="${s.name}">
+              ${buildOptions()}
+            </select>
+          </div>`;
+      });
+
+      card.innerHTML = `
+        <div class="day-header">
+          <div class="date-num">${d}</div>
+          <div class="day-name">${dayName}</div>
+          ${hasHours ? `<div class="total-badge">${dayTotal % 1 === 0 ? dayTotal : dayTotal.toFixed(1)}h</div>` : ''}
+        </div>
+        <div class="subj-list">${subjHTML}</div>
+      `;
+
+      // Set select values
+      card.querySelectorAll('select').forEach(sel => {
+        const subj = sel.dataset.subj;
+        sel.value = dayData[subj] || 0;
+        sel.addEventListener('change', function () {
+          const k = this.dataset.key;
+          const s = this.dataset.subj;
+          const v = parseFloat(this.value);
+          if (!data[k]) data[k] = {};
+          if (v > 0) data[k][s] = v;
+          else delete data[k][s];
+          if (Object.keys(data[k]).length === 0) delete data[k];
+          save();
+          renderGrid();
+          updateSummary();
+        });
+      });
+
+      grid.appendChild(card);
+    }
+
+    updateSummary();
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderGrid();
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderGrid();
+  });
+
+  renderGrid();
+</script>
+</body>
+</html>

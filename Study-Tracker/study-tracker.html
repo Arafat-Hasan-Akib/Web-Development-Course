@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="study-tracker.css"/>
+</head>
+<body>
+
+<header>
+  <p class="tag">// monthly study tracker</p>
+  <h1>Study <span>Log</span></h1>
+  <p class="subtitle">প্রতিটা subject-এ কতক্ষণ পড়লে সেটা track করো</p>
+</header>
+
+<!-- Summary Stats -->
+<div class="summary">
+  <div class="stat-card">
+    <div class="val red" id="totalHours">0</div>
+    <div class="lbl">মোট ঘণ্টা</div>
+  </div>
+  <div class="stat-card">
+    <div class="val orange" id="studiedDays">0</div>
+    <div class="lbl">দিন পড়েছ</div>
+  </div>
+  <div class="stat-card">
+    <div class="val green" id="avgHours">0</div>
+    <div class="lbl">গড় ঘণ্টা/দিন</div>
+  </div>
+  <div class="stat-card">
+    <div class="val brown" id="topSubject">—</div>
+    <div class="lbl">সেরা subject</div>
+  </div>
+</div>
+
+<!-- Subject-wise Summary -->
+<div class="subject-summary">
+  <h3>Subject অনুযায়ী মোট ঘণ্টা</h3>
+  <div class="subj-bars" id="subjBars"></div>
+</div>
+
+<!-- Month Nav -->
+<div class="month-nav">
+  <button id="prevBtn">&#8249;</button>
+  <div class="month-title" id="monthTitle"></div>
+  <button id="nextBtn">&#8250;</button>
+</div>
+
+<!-- Day Grid -->
+<div class="grid" id="dayGrid"></div>
+
+<script src="study-tracker.js"></script>
+</body>
+</html>
